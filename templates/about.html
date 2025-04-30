@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About CineMate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #141414;
+            --text-color: #ffffff;
+            --background-dark: #000000;
+            --background-card: #181818;
+        }
+        
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .header {
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.8) 60%, 
+                rgba(0, 0, 0, 0.6) 100%);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            color: var(--primary-color);
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: none;
+        }
+        
+        .search-button {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .about-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .about-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .about-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #aaa;
+        }
+        
+        .about-section {
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .about-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .about-text {
+            line-height: 1.8;
+            color: #ddd;
+        }
+        
+        .feature-card {
+            background: var(--background-card);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .team-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-bio {
+            color: #aaa;
+            line-height: 1.6;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        
+        .footer {
+            background: var(--secondary-color);
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-icons {
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: #aaa;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .about-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">CineMate</a>
+                </div>
+                <div class="col-md-8">
+                    <form action="/search" method="GET" class="search-container">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control search-input" placeholder="Search for movies...">
+                            <button type="submit" class="btn search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="about-header">
+            <h1 class="about-title">About CineMate</h1>
+            <p class="about-subtitle">Your ultimate destination for discovering movies you'll love, powered by advanced recommendation algorithms and the latest movie data.</p>
+        </div>
+        
+        <div class="about-section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Our Mission</h2>
+                    <div class="about-text">
+                        <p>At CineMate, we believe that everyone deserves to experience the magic of cinema that resonates with their unique tastes and preferences. Our mission is to connect people with movies that will inspire, entertain, and move them.</p>
+                        <p>Using advanced machine learning algorithms and data from The Movie Database (TMDB), we provide personalized movie recommendations that go beyond the mainstream suggestions found on other platforms.</p>
+                        <p>Whether you're a casual viewer looking for tonight's entertainment or a film enthusiast exploring the depths of cinema, CineMate is designed to enhance your movie discovery journey.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80" class="img-fluid rounded" alt="Cinema">
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title text-center">Key Features</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 class="feature-title">Personalized Recommendations</h3>
+                        <p class="feature-description">Our recommendation engine analyzes your preferences to suggest movies you're likely to enjoy, introducing you to films you might have never discovered otherwise.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="feature-title">Comprehensive Database</h3>
+                        <p class="feature-description">Access information on thousands of movies, including ratings, cast details, trailers, reviews, and more—all in one place for your browsing pleasure.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="feature-title">Advanced Search</h3>
+                        <p class="feature-description">Find exactly what you're looking for with our powerful search tools, allowing you to filter by genre, year, rating, and more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title text-center">Our Technology</h2>
+            <div class="about-text text-center mx-auto" style="max-width: 800px;">
+                <p>CineMate is built using cutting-edge technologies to provide the best possible user experience:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check-circle text-primary me-2"></i> <strong>Machine Learning</strong>: Our recommendation system uses k-nearest neighbors (KNN) algorithms to find movies similar to ones you love.</li>
+                    <li><i class="fas fa-check-circle text-primary me-2"></i> <strong>TMDB API</strong>: We integrate with The Movie Database to provide up-to-date information on movies from around the world.</li>
+                    <li><i class="fas fa-check-circle text-primary me-2"></i> <strong>Flask</strong>: A lightweight Python web framework that powers our backend services.</li>
+                    <li><i class="fas fa-check-circle text-primary me-2"></i> <strong>Bootstrap</strong>: For a responsive design that works beautifully on all devices.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="about-section">
+            <h2 class="section-title text-center">Meet the Team</h2>
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" class="team-photo">
+                        <h3 class="team-name">John Doe</h3>
+                        <div class="team-role">Founder & Developer</div>
+                        <p class="team-bio">John is a passionate developer with expertise in machine learning and web development. He created CineMate to solve his own problem of finding great movies to watch.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Jane Smith" class="team-photo">
+                        <h3 class="team-name">Jane Smith</h3>
+                        <div class="team-role">UX Designer</div>
+                        <p class="team-bio">Jane brings her expertise in user experience design to create intuitive and beautiful interfaces that make movie discovery a joy for our users.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Chen" class="team-photo">
+                        <h3 class="team-name">David Chen</h3>
+                        <div class="team-role">Data Scientist</div>
+                        <p class="team-bio">David is our data wizard, developing and refining the recommendation algorithms that make CineMate's suggestions so accurate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="text-white">CineMate</h4>
+                    <p class="text-muted">Your ultimate movie recommendation platform</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/top-rated">Top Rated</a></li>
+                        <li><a href="/popular">Popular</a></li>
+                        <li><a href="/now-playing">Now Playing</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <div class="row">
+                <div class="col-12 text-center text-muted">
+                    <p>&copy; 2024 CineMate. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

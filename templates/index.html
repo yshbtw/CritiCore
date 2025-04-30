@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMate - Movie Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff0f1f; /* Brighter red for better contrast */
+            --secondary-color: #141414;
+            --text-color: #ffffff;
+            --background-dark: #000000;
+            --background-card: #181818;
+            --button-hover: #d7000e;
+            --footer-link-color: #d4d4d4; /* Lighter color for better contrast */
+            --footer-bg: #0a0a0a; /* Darker footer background */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.8) 60%, 
+                rgba(0, 0, 0, 0.6) 100%);
+            padding: 2rem 0;
+            margin-bottom: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            color: var(--primary-color);
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            background: rgba(255, 255, 255, 0.15); /* Slightly lighter background for better contrast */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Added border for better visibility */
+            color: white;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(255, 15, 31, 0.4); /* Focus ring for accessibility */
+        }
+        
+        .search-button {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .search-button:hover {
+            background: var(--button-hover);
+        }
+        
+        .recommend-btn {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .recommend-btn:hover, .recommend-btn:focus {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recommend-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .movie-card {
+            background: var(--background-card);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            height: 100%;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .movie-info {
+            padding: 1rem;
+        }
+        
+        .movie-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .movie-rating {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .movie-genres {
+            margin: 0.5rem 0;
+        }
+        
+        .genre-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            margin: 2px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin: 0 0 1.5rem 0;
+            color: var(--primary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+        
+        .section {
+            padding: 4rem 0;
+            scroll-margin-top: 80px; /* Added for smooth scrolling with internal links */
+        }
+        
+        .dark-section {
+            background-color: #0a0a0a;
+        }
+        
+        .footer {
+            background: var(--footer-bg);
+            padding: 2rem 0;
+            margin-top: 0;
+            border-top: 1px solid #222;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--footer-link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500; /* Slightly bolder for better readability */
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .social-icons {
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: var(--footer-link-color);
+            margin-right: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.6) 60%, 
+                rgba(0, 0, 0, 0.4) 100%),
+                url('https://assets.nflxext.com/ffe/siteui/vlv3/c38a2d52-138e-48a3-ab68-36787ece46b3/eeb03fc9-99c6-438e-824d-32917ce55783/US-en-20240101-popsignuptwoweeks-perspective_alpha_website_large.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 10;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .autocomplete {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .autocomplete input {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .autocomplete input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 15, 31, 0.4);
+        }
+        
+        .autocomplete-results {
+            position: absolute;
+            border: 1px solid #999;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: rgba(24, 24, 24, 0.95);
+            border-radius: 0 0 4px 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .autocomplete-results > div {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .autocomplete-results > div:hover {
+            background-color: rgba(255, 15, 31, 0.2);
+        }
+        
+        .suggestion-poster {
+            width: 45px;
+            height: 68px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+        
+        .suggestion-info {
+            flex: 1;
+        }
+        
+        .suggestion-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .suggestion-year {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--button-hover);
+            border-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+        }
+        
+        .movie-slider-container {
+            position: relative;
+        }
+        
+        .movie-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+            gap: 1rem;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) #333;
+        }
+        
+        .movie-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .movie-slider::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .movie-slider::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .slider-item {
+            flex: 0 0 auto;
+            width: 250px;
+            scroll-snap-align: start;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        
+        .slider-control {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-control:hover, .slider-control:focus {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .movie-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 50%);
+            pointer-events: none;
+        }
+        
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            z-index: 5;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .see-all-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .see-all-link:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 991px) {
+            .header {
+                position: relative;
+                margin-bottom: 2rem;
+            }
+            
+            .hero-section {
+                height: 80vh;
+            }
+            
+            .slider-item {
+                width: 200px;
+            }
+            
+            .movie-poster {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 70vh;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .slider-item {
+                width: 180px;
+            }
+            
+            .movie-poster {
+                height: 270px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 2rem 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                height: 60vh;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .slider-item {
+                width: 150px;
+            }
+            
+            .movie-poster {
+                height: 225px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">CineMate</a>
+                </div>
+                <div class="col-md-8">
+                    <form action="/search" method="GET" class="search-container">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control search-input" placeholder="Search for movies...">
+                            <button type="submit" class="btn search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero-section" id="hero">
+        <div class="hero-content">
+            <h1 class="logo">CineMate</h1>
+            <h2 class="hero-title">Discover Your Next Favorite Movie</h2>
+            <p class="hero-subtitle">Find personalized movie recommendations based on your taste</p>
+            
+            <div class="search-container">
+                <div class="autocomplete">
+                    <input type="text" id="movieSearch" placeholder="Search for a movie..." aria-label="Search for a movie">
+                    <div id="autocompleteResults" class="autocomplete-results"></div>
+                </div>
+                <button id="recommendBtn" class="recommend-btn" disabled aria-label="Get recommendations">Find Movies</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Top Rated Movies Section -->
+    <section class="section" id="top-rated">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Top Rated Movies</h2>
+                <a href="/top-rated" class="see-all-link">See All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="movie-slider-container">
+                <div class="movie-slider" id="topRatedSlider">
+                    {% for movie in top_movies %}
+                    <div class="slider-item">
+                        <a href="/movie/{{ movie.id }}" class="text-decoration-none">
+                            <div class="movie-card">
+                                <div class="rating-badge">
+                                    <i class="fas fa-star"></i> {{ movie.rating|round(1) }}
+                                </div>
+                                <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+                                <div class="movie-overlay"></div>
+                                <div class="movie-info">
+                                    <h3 class="movie-title">{{ movie.title }}</h3>
+                                    <div class="movie-meta d-flex justify-content-between align-items-center">
+                                        <span>{{ movie.year }}</span>
+                                        <span>{{ movie.runtime }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-control" onclick="scrollSlider('topRatedSlider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-control" onclick="scrollSlider('topRatedSlider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Popular Movies Section -->
+    <section class="section dark-section" id="popular">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Popular Movies</h2>
+                <a href="/popular" class="see-all-link">See All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="movie-slider-container">
+                <div class="movie-slider" id="popularSlider">
+                    {% for movie in popular_movies %}
+                    <div class="slider-item">
+                        <a href="/movie/{{ movie.id }}" class="text-decoration-none">
+                            <div class="movie-card">
+                                <div class="rating-badge">
+                                    <i class="fas fa-star"></i> {{ movie.rating|round(1) }}
+                                </div>
+                                <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+                                <div class="movie-overlay"></div>
+                                <div class="movie-info">
+                                    <h3 class="movie-title">{{ movie.title }}</h3>
+                                    <div class="movie-meta d-flex justify-content-between align-items-center">
+                                        <span>{{ movie.year }}</span>
+                                        <span>{{ movie.runtime }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-control" onclick="scrollSlider('popularSlider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-control" onclick="scrollSlider('popularSlider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Now Playing Movies Section -->
+    <section class="section" id="now-playing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Now Playing</h2>
+                <a href="/now-playing" class="see-all-link">See All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="movie-slider-container">
+                <div class="movie-slider" id="nowPlayingSlider">
+                    {% for movie in now_playing %}
+                    <div class="slider-item">
+                        <a href="/movie/{{ movie.id }}" class="text-decoration-none">
+                            <div class="movie-card">
+                                <div class="rating-badge">
+                                    <i class="fas fa-star"></i> {{ movie.rating|round(1) }}
+                                </div>
+                                <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+                                <div class="movie-overlay"></div>
+                                <div class="movie-info">
+                                    <h3 class="movie-title">{{ movie.title }}</h3>
+                                    <div class="movie-meta d-flex justify-content-between align-items-center">
+                                        <span>{{ movie.year }}</span>
+                                        <span>{{ movie.runtime }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-control" onclick="scrollSlider('nowPlayingSlider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-control" onclick="scrollSlider('nowPlayingSlider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="text-white">CineMate</h4>
+                    <p class="text-white-50">Your ultimate movie recommendation platform</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Navigation</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">On This Page</h5>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Top</a></li>
+                        <li><a href="#top-rated">Top Rated Movies</a></li>
+                        <li><a href="#popular">Popular Movies</a></li>
+                        <li><a href="#now-playing">Now Playing</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h5 class="text-white">Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-white-50">&copy; 2024 CineMate. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cache DOM elements
+            const movieSearchInput = document.getElementById('movieSearch');
+            const autocompleteResults = document.getElementById('autocompleteResults');
+            const recommendBtn = document.getElementById('recommendBtn');
+            
+            let searchTimeout;
+            let selectedMovie = null;
+            
+            // Function to scroll the movie slider
+            window.scrollSlider = function(sliderId, direction) {
+                const slider = document.getElementById(sliderId);
+                const scrollAmount = slider.clientWidth * 0.8;
+                
+                if (direction === 'left') {
+                    slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                } else {
+                    slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
+            };
+            
+            // Function to search for movies (autocomplete)
+            function searchMovies(query) {
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    autocompleteResults.innerHTML = '';
+                    autocompleteResults.style.display = 'none';
+                    return;
+                }
+                
+                searchTimeout = setTimeout(() => {
+                    fetch(`/api/search?q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            autocompleteResults.innerHTML = '';
+                            
+                            if (data.results && data.results.length > 0) {
+                                data.results.forEach(movie => {
+                                    const item = document.createElement('div');
+                                    item.innerHTML = `
+                                        <img src="${movie.poster || 'https://via.placeholder.com/45x68?text=No+Poster'}" class="suggestion-poster" alt="${movie.title}">
+                                        <div class="suggestion-info">
+                                            <div class="suggestion-title">${movie.title}</div>
+                                            <div class="suggestion-year">${movie.year || ''}</div>
+                                        </div>
+                                    `;
+                                    
+                                    item.addEventListener('click', () => {
+                                        movieSearchInput.value = movie.title;
+                                        selectedMovie = movie;
+                                        autocompleteResults.innerHTML = '';
+                                        autocompleteResults.style.display = 'none';
+                                        recommendBtn.disabled = false;
+                                    });
+                                    
+                                    autocompleteResults.appendChild(item);
+                                });
+                                
+                                autocompleteResults.style.display = 'block';
+                            } else {
+                                autocompleteResults.style.display = 'none';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error searching for movies:', error);
+                        });
+                }, 300);
+            }
+            
+            // Handle input events
+            movieSearchInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+                selectedMovie = null;
+                recommendBtn.disabled = true;
+                searchMovies(query);
+            });
+            
+            // Hide autocomplete on click outside
+            document.addEventListener('click', (e) => {
+                if (e.target !== movieSearchInput) {
+                    autocompleteResults.style.display = 'none';
+                }
+            });
+            
+            // Get recommendations
+            recommendBtn.addEventListener('click', () => {
+                if (selectedMovie) {
+                    window.location.href = `/movie/${selectedMovie.id}`;
+                } else if (movieSearchInput.value.trim() !== '') {
+                    window.location.href = `/search?query=${encodeURIComponent(movieSearchInput.value.trim())}`;
+                }
+            });
+            
+            // Allow enter key to submit
+            movieSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!recommendBtn.disabled) {
+                        recommendBtn.click();
+                    } else if (movieSearchInput.value.trim() !== '') {
+                        window.location.href = `/search?query=${encodeURIComponent(movieSearchInput.value.trim())}`;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

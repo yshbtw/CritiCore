@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} - CineMate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #141414;
+            --text-color: #ffffff;
+            --background-dark: #000000;
+            --background-card: #181818;
+        }
+        
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .movie-header {
+            position: relative;
+            height: 80vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 0;
+        }
+        
+        .movie-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.7) 50%, 
+                rgba(0, 0, 0, 0.4) 100%);
+            z-index: 1;
+        }
+        
+        .movie-header-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 2rem;
+        }
+        
+        .movie-poster {
+            width: 300px;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .movie-info {
+            padding: 2rem;
+        }
+        
+        .movie-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .movie-tagline {
+            font-style: italic;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .movie-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #aaa;
+        }
+        
+        .movie-rating {
+            color: var(--primary-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .rating-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .genre-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            margin: 5px;
+            background: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .genre-badge:hover {
+            background: #c11119;
+            transform: translateY(-2px);
+        }
+        
+        .movie-plot {
+            margin: 2rem 0;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .cast-list {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .cast-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .cast-list::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .cast-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .cast-card {
+            flex: 0 0 auto;
+            background: var(--background-card);
+            border-radius: 8px;
+            width: 160px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .cast-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .cast-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .cast-info {
+            padding: 1rem;
+        }
+        
+        .cast-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .cast-character {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .directors-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .director-card {
+            background: var(--background-card);
+            padding: 1rem;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .trailer-container {
+            margin: 2rem 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .trailer-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .box-office {
+            background: var(--background-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .box-office-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .box-office-item {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .box-office-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .box-office-label {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .reviews-section {
+            margin: 2rem 0;
+        }
+        
+        .review-card {
+            background: var(--background-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .review-author {
+            font-weight: bold;
+        }
+        
+        .review-rating {
+            color: var(--primary-color);
+        }
+        
+        .review-content {
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        .review-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .review-content::-webkit-scrollbar-track {
+            background: #333;
+        }
+        
+        .review-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+        }
+        
+        .recommendations-section {
+            margin: 3rem 0;
+        }
+        
+        .recommendations-list {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+        
+        .recommendations-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .recommendations-list::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .recommendations-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .recommendation-card {
+            flex: 0 0 auto;
+            width: 200px;
+            background: var(--background-card);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .recommendation-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .recommendation-info {
+            padding: 1rem;
+        }
+        
+        .recommendation-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        .recommendation-rating {
+            color: var(--primary-color);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            text-decoration: none;
+        }
+        
+        .back-button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--background-card);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .action-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .keywords-section {
+            margin: 2rem 0;
+        }
+        
+        .keyword-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            background: var(--background-card);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+        
+        @media (max-width: 991px) {
+            .movie-header {
+                height: auto;
+                min-height: 50vh;
+            }
+            
+            .movie-poster {
+                width: 220px;
+                height: 330px;
+            }
+            
+            .movie-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .movie-header {
+                text-align: center;
+            }
+            
+            .movie-header-content {
+                padding: 2rem 1rem;
+            }
+            
+            .movie-poster {
+                width: 180px;
+                height: 270px;
+                margin: 0 auto 1.5rem auto;
+                display: block;
+            }
+            
+            .movie-title {
+                font-size: 2rem;
+            }
+            
+            .movie-meta {
+                justify-content: center;
+            }
+            
+            .cast-card {
+                width: 140px;
+            }
+            
+            .cast-image {
+                height: 180px;
+            }
+            
+            .recommendation-card {
+                width: 160px;
+            }
+            
+            .recommendation-poster {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    
+    <div class="movie-header" style="background-image: url('{{ movie.backdrop }}');">
+        <div class="movie-header-overlay"></div>
+        <div class="movie-header-content">
+            <div class="container">
+                <div class="row align-items-end">
+                    <div class="col-lg-3 col-md-4">
+                        <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="movie-poster">
+                    </div>
+                    <div class="col-lg-9 col-md-8">
+                        <h1 class="movie-title">{{ movie.title }}</h1>
+                        {% if movie.tagline %}
+                        <div class="movie-tagline">{{ movie.tagline }}</div>
+                        {% endif %}
+                        <div class="movie-meta">
+                            <div class="movie-rating">
+                                <div class="rating-circle">
+                                    <span>{{ movie.rating|round(1) }}</span>
+                                </div>
+                                <span>{{ movie.votes }} votes</span>
+                            </div>
+                            <span>{{ movie.year }}</span>
+                            <span>{{ movie.runtime }}</span>
+                        </div>
+                        <div>
+                            {% for genre in movie.genres %}
+                            <a href="/genres/{{ loop.index }}" class="genre-badge">{{ genre }}</a>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="action-buttons">
+                            {% if movie.imdb_id %}
+                            <a href="https://www.imdb.com/title/{{ movie.imdb_id }}/" target="_blank" class="action-button">
+                                <i class="fab fa-imdb fa-lg"></i> View on IMDb
+                            </a>
+                            {% endif %}
+                            
+                            {% if movie.trailer %}
+                            <a href="#trailer" class="action-button">
+                                <i class="fas fa-play"></i> Watch Trailer
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="movie-plot">
+            <h3 class="section-title">Story</h3>
+            <p>{{ movie.plot }}</p>
+        </div>
+        
+        {% if movie.trailer %}
+        <div id="trailer" class="trailer-container">
+            <iframe src="{{ movie.trailer }}" allowfullscreen></iframe>
+        </div>
+        {% endif %}
+        
+        {% if movie.full_cast %}
+        <div class="cast-section">
+            <h3 class="section-title">Cast</h3>
+            <div class="cast-list">
+                {% for actor in movie.full_cast %}
+                <div class="cast-card">
+                    {% if actor.profile_path %}
+                    <img src="{{ actor.profile_path }}" alt="{{ actor.name }}" class="cast-image">
+                    {% else %}
+                    <div class="cast-image" style="background-color: #333; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user fa-3x" style="color: #555;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="cast-info">
+                        <div class="cast-name">{{ actor.name }}</div>
+                        <div class="cast-character">{{ actor.character }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if movie.directors %}
+        <div class="directors-section">
+            <h3 class="section-title">Directors</h3>
+            <div class="directors-list">
+                {% for director in movie.directors %}
+                <div class="director-card">
+                    <i class="fas fa-film"></i>
+                    <span>{{ director }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if movie.budget or movie.revenue %}
+        <div class="box-office-section">
+            <h3 class="section-title">Box Office</h3>
+            <div class="box-office">
+                <div class="box-office-stats">
+                    {% if movie.budget and movie.budget > 0 %}
+                    <div class="box-office-item">
+                        <div class="box-office-value">${{ '{:,}'.format(movie.budget) }}</div>
+                        <div class="box-office-label">Budget</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if movie.revenue and movie.revenue > 0 %}
+                    <div class="box-office-item">
+                        <div class="box-office-value">${{ '{:,}'.format(movie.revenue) }}</div>
+                        <div class="box-office-label">Revenue</div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if movie.budget and movie.revenue and movie.budget > 0 and movie.revenue > 0 %}
+                    <div class="box-office-item">
+                        <div class="box-office-value">{{ '{:,.1f}'.format(movie.revenue / movie.budget) }}x</div>
+                        <div class="box-office-label">Return on Investment</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if movie.reviews %}
+        <div class="reviews-section">
+            <h3 class="section-title">Reviews</h3>
+            {% for review in movie.reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-author">{{ review.author }}</div>
+                    {% if review.rating %}
+                    <div class="review-rating">
+                        <i class="fas fa-star"></i> {{ review.rating }}/10
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="review-content">
+                    {{ review.content }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if movie.keywords %}
+        <div class="keywords-section">
+            <h3 class="section-title">Keywords</h3>
+            <div>
+                {% for keyword in movie.keywords %}
+                <span class="keyword-badge">{{ keyword }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if movie.recommendations %}
+        <div class="recommendations-section">
+            <h3 class="section-title">Similar Movies</h3>
+            <div class="recommendations-list">
+                {% for rec in movie.recommendations %}
+                <a href="/movie/{{ rec.id }}" class="recommendation-card">
+                    <img src="{{ rec.poster }}" alt="{{ rec.title }}" class="recommendation-poster">
+                    <div class="recommendation-info">
+                        <div class="recommendation-title">{{ rec.title }}</div>
+                        <div class="recommendation-meta">
+                            <div>{{ rec.year }}</div>
+                            <div class="recommendation-rating">
+                                <i class="fas fa-star"></i> {{ rec.rating|round(1) }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html> 

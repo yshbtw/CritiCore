@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CineMate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff0f1f;
+            --secondary-color: #141414;
+            --text-color: #ffffff;
+            --background-dark: #000000;
+            --background-card: #181818;
+            --button-hover: #d7000e;
+            --footer-link-color: #d4d4d4;
+            --footer-bg: #0a0a0a;
+        }
+        
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .header {
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.8) 60%, 
+                rgba(0, 0, 0, 0.6) 100%);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            color: var(--primary-color);
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 1rem;
+            border-radius: 25px;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(255, 15, 31, 0.4);
+        }
+        
+        .search-button {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 2rem;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .contact-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .contact-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .contact-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #d4d4d4;
+        }
+        
+        .contact-section {
+            padding: 3rem 0;
+        }
+        
+        .contact-card {
+            background: var(--background-card);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .contact-text {
+            color: #ddd;
+        }
+        
+        .contact-label {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            color: white;
+        }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(255, 15, 31, 0.4);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .form-label {
+            color: #ddd;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-submit {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .map-container {
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .social-contact {
+            background: var(--background-card);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .social-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .social-icons-large {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-icon-large {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon-large:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+            color: white;
+        }
+        
+        .faq-section {
+            padding: 3rem 0;
+        }
+        
+        .faq-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .accordion-item {
+            background-color: var(--background-card);
+            border: none;
+            margin-bottom: 1rem;
+        }
+        
+        .accordion-button {
+            background-color: var(--background-card);
+            color: white;
+            font-weight: 600;
+            box-shadow: none;
+            padding: 1.5rem;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: var(--background-card);
+            color: var(--primary-color);
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        
+        .accordion-body {
+            background-color: var(--background-card);
+            color: #ddd;
+            padding: 1.5rem;
+        }
+        
+        .footer {
+            background: var(--footer-bg);
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #222;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--footer-link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .social-icons {
+            font-size: 1.5rem;
+        }
+        
+        .social-icons a {
+            color: var(--footer-link-color);
+            margin-right: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .contact-title {
+                font-size: 2.5rem;
+            }
+            
+            .contact-subtitle {
+                font-size: 1rem;
+            }
+            
+            .social-icons-large {
+                gap: 1rem;
+            }
+            
+            .social-icon-large {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    <a href="/" class="logo">CineMate</a>
+                </div>
+                <div class="col-md-8">
+                    <form action="/search" method="GET" class="search-container">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control search-input" placeholder="Search for movies...">
+                            <button type="submit" class="btn search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="contact-header">
+            <h1 class="contact-title">Contact Us</h1>
+            <p class="contact-subtitle">Have questions, feedback, or suggestions? We'd love to hear from you! Reach out to our team and we'll get back to you as soon as possible.</p>
+        </div>
+        
+        <div class="contact-section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="contact-card">
+                        <h2 class="mb-4">Get in Touch</h2>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <div class="contact-label">Our Location</div>
+                                <div class="contact-text">123 Movie Street, Hollywood, CA 90028</div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <div class="contact-label">Email Us</div>
+                                <div class="contact-text">info@cinemate.com</div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <div class="contact-label">Call Us</div>
+                                <div class="contact-text">+1 (555) 123-4567</div>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="contact-label">Working Hours</div>
+                                <div class="contact-text">Monday - Friday: 9:00 AM - 6:00 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52865.904946920966!2d-118.35033158436399!3d34.092813174663105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2bf07045279bf%3A0xf67a9a6797bdfae4!2sHollywood%2C%20Los%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2sin!4v1651822112975!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="contact-card" id="contact-form">
+                        <h2 class="mb-4">Send Us a Message</h2>
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Enter subject">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Enter your message"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-submit">Send Message</button>
+                        </form>
+                    </div>
+                    
+                    <div class="social-contact mt-4">
+                        <h3 class="social-title">Connect With Us</h3>
+                        <div class="social-icons-large">
+                            <a href="#" class="social-icon-large">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon-large">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon-large">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon-large">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="social-icon-large">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                        <p class="mb-0 text-muted">Follow us on social media for the latest updates, movie news, and more!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-section" id="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How does CineMate's recommendation system work?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            CineMate uses advanced machine learning algorithms based on k-nearest neighbors (KNN) to analyze movie features and user preferences. Our system examines factors like genre, director, actors, ratings, and more to find movies that are similar to ones you've enjoyed in the past, providing personalized recommendations tailored to your taste.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Is CineMate free to use?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, CineMate is completely free to use! We believe everyone should have access to great movie recommendations. We may introduce premium features in the future, but our core recommendation service will always remain free.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Where does CineMate get its movie data from?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            CineMate sources its movie data from The Movie Database (TMDB) API, which provides comprehensive and up-to-date information on movies, including details like cast, crew, plot summaries, ratings, release dates, and more. This ensures our recommendations are based on accurate and current data.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Can I suggest new features for CineMate?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Absolutely! We love hearing from our users and value your input. You can submit feature suggestions through our contact form or by emailing us at suggestions@cinemate.com. Our team reviews all suggestions and incorporates the most requested and feasible ones into our development roadmap.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            How can I report a bug or issue on the website?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            If you encounter any bugs or issues while using CineMate, please let us know by filling out our contact form or emailing support@cinemate.com. Be sure to include details about the problem, such as the page you were on, what you were trying to do, and any error messages you received. Screenshots are also helpful. Our development team will investigate and resolve the issue as quickly as possible.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="text-white">CineMate</h4>
+                    <p class="text-white-50">Your ultimate movie recommendation platform</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Navigation</h5>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">On This Page</h5>
+                    <ul class="footer-links">
+                        <li><a href="#contact-form">Contact Form</a></li>
+                        <li><a href="#faq-section">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h5 class="text-white">Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="text-white-50">&copy; 2024 CineMate. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
