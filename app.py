@@ -30,8 +30,8 @@ app.config.from_mapping(cache_config)
 cache = Cache(app)
 
 # TMDB API configuration
-TMDB_API_KEY = os.getenv("TMDB_API_KEY", "29ad6a51724de2c06c2cc506c5038855")
-TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN", "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyOWFkNmE1MTcyNGRlMmMwNmMyY2M1MDZjNTAzODg1NSIsIm5iZiI6MTczNTgyMDU0MS4yNTcsInN1YiI6IjY3NzY4NGZkMzYxNWMxYTM3NjEyOWRjZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vdoPmhRQhXJYjdnF-fC97utvhy7D7dR9IbhUgIX0fyo")
+TMDB_API_KEY = os.getenv("TMDB_API_KEY", "TMDB_API_KEY")
+TMDB_ACCESS_TOKEN = os.getenv("TMDB_ACCESS_TOKEN", "TMDB_ACCESS_TOKEN")
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/"
 
